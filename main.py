@@ -2,7 +2,7 @@ import telebot
 import chat
 from typing import Optional, Dict
 
-bot = telebot.TeleBot('5772811550:AAG_Wjtpz4yz9ersPArVRGW_icHFLMO8N48')
+bot = telebot.TeleBot('5658408141:AAFQ414_EqGwnjj7wXH7ogXl30OmwyY266I')
 data: Dict[str, int] = {}
 
 
