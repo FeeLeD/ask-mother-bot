@@ -43,12 +43,11 @@ def handle_text(message):
             data[username] += 1
 
     markup: Optional[telebot.types.ReplyKeyboardMarkup] = None
-    if response.question1 is not None and response.question2 is not None:
+    if response.questions is not None and len(response.questions) > 0:
         markup = telebot.types.ReplyKeyboardMarkup()
-        first_button = telebot.types.KeyboardButton(response.question1.text)
-        second_button = telebot.types.KeyboardButton(response.question2.text)
-        markup.add(first_button)
-        markup.add(second_button)
+        for q in response.questions:
+            button = telebot.types.KeyboardButton(q.text)
+            markup.add(button)
 
     answer = response.answer.text
     if response.answer.key == 1:

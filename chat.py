@@ -1,17 +1,15 @@
 from typing import List
-from messages import ChatMessage, answers, questions
+from messages import ChatMessage, answers, QUESTIONS
 
 
 class Response:
     def __init__(self,
                  answer: ChatMessage = None,
-                 question1: ChatMessage = None,
-                 question2: ChatMessage = None,
+                 questions: List[ChatMessage] = [],
                  current_question: ChatMessage = None,
                  is_bad_input: bool = False):
         self.answer = answer
-        self.question1 = question1
-        self.question2 = question2
+        self.questions = questions
         self.current_question = current_question
         self.is_bad_input = is_bad_input
 
@@ -19,7 +17,7 @@ class Response:
 def get_questions(*keys: int):
     found_questions: List[ChatMessage] = []
     for key in keys:
-        found_questions += [q for q in questions if q.key == key]
+        found_questions += [q for q in QUESTIONS if q.key == key]
 
     return found_questions
 
@@ -29,7 +27,7 @@ def get_answer(key: int):
 
 
 def get_response_from(message):
-    current_question = next((q for q in questions if q.text == message.text), None)
+    current_question = next((q for q in QUESTIONS if q.text == message.text), None)
 
     if current_question is None:
         return Response(is_bad_input=True)
@@ -45,7 +43,7 @@ def get_response_from(message):
 
     found_questions = get_questions(*found_answers[0].next_messages)
     if len(found_questions) > 0:
-        return Response(answer=found_answers[0], question1=found_questions[0], question2=found_questions[1],
+        return Response(answer=found_answers[0], questions=found_questions,
                         current_question=current_question)
 
 
@@ -70,7 +68,7 @@ def get_response_from(message):
 
 
 def is_good_question(message):
-    current_question = next((q for q in questions if q.text == message.text), None)
+    current_question = next((q for q in QUESTIONS if q.text == message.text), None)
 
     if current_question is None:
         return False
